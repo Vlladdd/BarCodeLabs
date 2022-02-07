@@ -259,7 +259,6 @@ class ViewController: UIViewController {
                 let index = codes5.firstIndex(of: str2)
                 if index != nil{
                 finalDecode.append(code4[index!])
-                sum += index!
                 str = ""
                 count = 0
                 totalSymbols += 1
@@ -269,17 +268,23 @@ class ViewController: UIViewController {
                 str = String(str.dropLast(1))
                 let index = codes5.firstIndex(of: str)
                 finalDecode.append(code4[index!])
-                sum += index!
                 str = ""
                 count = 0
                 totalSymbols += 1
             }
         }
         totalSymbols -= 1
+        var controlDecode = ""
         let y = finalDecode.count - totalSymbols
+        for x in totalSymbols...finalDecode.count{
+            controlDecode.append(finalDecode[x])
+        }
         finalDecode = String(finalDecode.dropLast(y))
+        for x in finalDecode {
+            sum += code4.firstIndex(of: String(x))!
+        }
         control = sum % 43
-        if control == codes5.firstIndex(of: finalDecode[finalDecode.count - 1]){
+        if code4[control] == controlDecode{
             print("Everything is fine!")
         }
     }
@@ -565,6 +570,7 @@ class ViewController: UIViewController {
     @IBAction func decode(_ sender: UIButton) {
         string = ""
         string2 = input.text!
+        myView.subviews.forEach({ $0.removeFromSuperview() })
         print(string2)
         if validation2() {
             output.text = ""
